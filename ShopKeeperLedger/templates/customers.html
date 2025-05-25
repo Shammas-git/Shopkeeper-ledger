@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+
+{% block title %}Customers - Shopkeeper Ledger{% endblock %}
+
+{% block content %}
+<!-- Page header with title and "Add Customer" button -->
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>
+        <i class="fas fa-users me-2"></i>
+        {% if search_query %}
+            Search Results for "{{ search_query }}"
+        {% else %}
+            Your Customers
+        {% endif %}
+    </h1>
+    <div>
+        <!-- Clear search button - Only shown when there's a search query -->
+        {% if search_query %}
+            <a href="{{ url_for('routes.dashboard') }}" class="btn btn-outline-secondary me-2">
+                <i class="fas fa-times-circle me-1"></i>
+                Clear Search
+            </a>
+        {% endif %}
+        <!-- Add Customer button - Button styling from styles.css (lines 500-554) -->
+        <!-- <a href="{{ url_for('routes.add_customer') }}" class="btn btn-success">
+            <i class="fas fa-user-plus me-1"></i>
+            Add Customer
+        </a> -->
+    </div>
+</div>
+
+<!-- Filters and Search Bar - Card styling from styles.css (lines 156-180) -->
+<div class="card mb-4 bg-dark border-secondary">
+    <div class="card-body bg-dark">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <!-- Search form - Submits to dashboard route (routes.py line 276) -->
+                <!-- Form controls styled in styles.css (lines 73-110) -->
+                <form method="GET" action="{{ url_for('routes.dashboard') }}" class="d-flex gap-2">
+                    <input type="text" name="search" class="form-control bg-dark text-light border-secondary" placeholder="Search customers..." value="{{ search_query }}">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+            </div>
+            <!-- With Transactions filter removed as requested -->
+        </div>
+    </div>
+</div>
+
+{% if customers %}
+    <div class="card">
+        <!-- Scrollable table container - Height managed by setupScrollableTables() in script_basic.js (lines 29-55) -->
+        <div class="card-body table-responsive-scroll">
+            <!-- Table with mobile card view - Styled by table* classes in styles.css (lines 220-421) -->
+            <!-- Mobile view transforms to cards with data-label attributes (styles.css lines 259-343) -->
+            <table class="table table-hover align-middle mobile-cards">
+                <thead class="table-dark">
+                    <tr>
+                        <!-- Column class names control widths in styles.css (lines 346-407) -->
+                        <th class="col-name">Customer Name</th>
+                        <th class="col-contact">Phone Number</th>
+                        <th class="col-balance">Balance</th>
+                        <th class="col-options">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for customer in customers %}
+                    <tr>
+                        <!-- Customer name column - data-label used in mobile view (styles.css line 302) -->
+                        <td class="fw-bold col-name" data-label="Customer Name">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-user text-primary me-2"></i>
+                                {{ customer.name }}
+                            </div>
+                        </td>
+                        <!-- Phone column - data-label used in mobile view -->
+                        {%if is_mobile%}
+                            <td class="col-contact" data-label="Phone Number">
+                                <a href="tel:+{{customer.phone}}"
+                                   style="color: initial; text-decoration: none;"
+                                   onmouseover="this.style.textDecoration='underline';"
+                                   onmouseout="this.style.textDecoration='none'; this.style.color='';"
+                                   onmousedown="this.style.color='blue';"
+                                   onmouseup="this.style.color='';"
+                                >
+                                  <i class="fas fa-phone me-2 text-secondary"></i> +{{ customer.phone }}
+                                </a>
+                            </td>
+                        {%else%}
+                            <td class="col-contact" data-label="Phone Number">
+                                <div><i class="fas fa-phone me-2 text-secondary"></i> +{{ customer.phone }}</div>
+                            </td>
+                        {%endif%}
+                        <!-- Balance column with color coding - Badge styling from Bootstrap -->
+                        <td class="col-balance" data-label="Balance">
+                            {% set balance = customer.get_balance() %}
+                            {% if balance > 0 %}
+                                <span class="badge bg-success">Rs {{ balance }}</span>
+                            {% elif balance < 0 %}
+                                <span class="badge bg-danger">Rs {{ -balance }}</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Rs 0</span>
+                            {% endif %}
+                        </td>
+                        <!-- Actions column with buttons - Button styling in styles.css (lines 500-554) -->
+                        <!-- Mobile view actions styling in styles.css (lines 331-342) -->
+                        <td class="col-options" data-label="Actions">
+                            <div class="btn-group">
+                                <a href="{{ url_for('routes.customer_detail', customer_id=customer.id) }}" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-eye me-1"></i>
+                                </a>
+                                <a href="{{ url_for('routes.add_transaction', customer_id=customer.id) }}" class="btn btn-success btn-sm">
+                                    <i>$<small>+</small></i>
+                                </a>
+                                <!-- Delete button triggers Bootstrap modal dialog -->
+                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteCustomerModal{{ customer.id }}">
+                                    <i class="fas fa-trash me-1"></i>
+                                </button>
+                            </div>
+                            
+                            <!-- Delete Customer Modal - Modal styling in styles.css (lines 688-749) -->
+                            <div class="modal fade" id="deleteCustomerModal{{ customer.id }}" tabindex="-1" aria-labelledby="deleteCustomerModalLabel{{ customer.id }}" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-danger text-white">
+                                            <h5 class="modal-title" id="deleteCustomerModalLabel{{ customer.id }}">Confirm Delete</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Are you sure you want to delete <strong>{{ customer.name }}</strong>? This will also delete all transaction records for this customer.</p>
+                                            <p class="text-danger"><strong>This action cannot be undone!</strong></p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                <i class="fas fa-times"></i> Cancel
+                                            </button>
+                                            <!-- Delete form submits to delete_customer route (routes.py line 422) -->
+                                            <form action="{{ url_for('routes.delete_customer', customer_id=customer.id) }}" method="POST" target="_top">
+                                                <button type="submit" class="btn btn-danger">
+                                                    <i class="fas fa-trash"></i> Delete Customer
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% else %}
+    <!-- Empty state message - Alert styling from Bootstrap -->
+    <div class="alert alert-info">
+        {% if search_query %}
+            <h4 class="alert-heading"><i class="fas fa-search me-2"></i>No Search Results</h4>
+            <p>No customers found matching "<strong>{{ search_query }}</strong>".</p>
+            <hr>
+            <div class="d-flex gap-2">
+                <a href="{{ url_for('routes.dashboard') }}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left me-1"></i>Back to All Customers
+                </a>
+                <a href="{{ url_for('routes.add_customer') }}" class="btn btn-primary">
+                    <i class="fas fa-plus me-1"></i>Add New Customer
+                </a>
+            </div>
+        {% else %}
+            <h4 class="alert-heading"><i class="fas fa-info-circle me-2"></i>No customers yet!</h4>
+            <p>You haven't added any customers to your ledger. Get started by adding your first customer.</p>
+            <hr>
+            <a href="{{ url_for('routes.add_customer') }}" class="btn btn-primary">
+                <i class="fas fa-plus me-1"></i>Add Your First Customer
+            </a>
+        {% endif %}
+    </div>
+{% endif %}
+{% endblock %}
