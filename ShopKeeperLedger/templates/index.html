@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Shopkeeper Ledger - Smart Inventory Tracking{% endblock %}
+{% block content %}
+<!-- Navbar & Hero & Features combined -->
+<section id="home" class="py-5">
+  <div class="container d-flex flex-column flex-lg-row align-items-center">
+    <div class="hero-content text-center text-lg-start mb-4 mb-lg-0">
+      <h1 class="display-5 fw-bold text-primary">Smart Inventory Tracking for Smart Shopkeepers</h1>
+      <p class="lead text-secondary">
+        A simple solution to manage your shop transactions. Add, search, view, and delete transactions with ease.
+      </p>
+    </div>
+    <div class="hero-image text-center">
+      <img src="{{ url_for('static', filename='WhatsApp Image 2025-05-14 at 16.52.53_2a325a8b.jpg') }}" alt="ShopKeeper Ledger Preview" class="img-fluid">
+    </div>
+  </div>
+</section>
+
+<section id="features" class="py-5 bg-light text-center">
+  <div class="container">
+    <h2 class="mb-5 text-primary">Key Features</h2>
+    <div class="row g-4 justify-content-center">
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <i class="fas fa-users fa-3x mb-3 text-primary"></i>
+            <h5 class="card-title">Customer Management</h5>
+            <p class="card-text">Keep track of all your customers in one place</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <i class="fas fa-exchange-alt fa-3x mb-3 text-success"></i>
+            <h5 class="card-title">Transaction Records</h5>
+            <p class="card-text">Record credit and debit transactions easily</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <i class="fas fa-calculator fa-3x mb-3 text-info"></i>
+            <h5 class="card-title">Balance Tracking</h5>
+            <p class="card-text">View outstanding balances for each customer</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

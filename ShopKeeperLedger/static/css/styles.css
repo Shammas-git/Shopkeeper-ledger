@@ -1,0 +1,956 @@
+/* Custom styles for Shopkeeper Ledger */
+
+/* 
+ * Global viewport adjustments to prevent horizontal scrolling
+ * Applied to all HTML and body elements across the entire site
+ * Prevents mobile horizontal scrolling issues
+ */
+html, body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* 
+ * Force container width 
+ * Styles .container elements used in base.html (lines 20, 90, 175)
+ * Ensures consistent container sizing and prevents content overflow
+ */
+.container, .container-fluid {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+}
+
+/* 
+ * Improved spacing for mobile devices 
+ * Media query for screens smaller than 576px (phone screens)
+ * Adjusts spacing and typography for better mobile experience
+ */
+@media (max-width: 576px) {
+    body {
+        padding-bottom: 1.5rem; /* Extra padding at bottom for mobile scrolling */
+    }
+    
+    /* 
+     * Better container spacing 
+     * Affects all container elements on mobile screens
+     */
+    .container, .container-fluid {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+    
+    /* 
+     * Better spacing between components 
+     * Applies to Bootstrap row elements used throughout templates
+     */
+    .row {
+        margin-bottom: 0.75rem;
+    }
+    
+    /* 
+     * Adjust heading spacing 
+     * Affects all heading elements (h1-h3) for better mobile readability
+     * Used in customers.html (line 8), customer_detail.html (line 22), etc.
+     */
+    h1, .h1 {
+        margin-bottom: 1rem;
+        font-size: 1.75rem;
+    }
+    
+    h2, .h2 {
+        margin-bottom: 0.85rem;
+        font-size: 1.5rem;
+    }
+    
+    h3, .h3 {
+        margin-bottom: 0.75rem;
+        font-size: 1.25rem;
+    }
+}
+
+/* 
+ * Force all elements to stay within container 
+ * Universal selector to ensure every element has proper box-sizing
+ * Prevents element overflow across entire application
+ */
+* {
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* 
+ * Ensure content container doesn't overflow 
+ * Styles the main content container in base.html (line 176)
+ * This container holds all page-specific content blocks
+ */
+#content-container {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+/* 
+ * Ensure card bodies don't cause horizontal overflow 
+ * Used in all card-body elements across templates:
+ * - customer_detail.html (line 24)
+ * - customers.html (line 34, 54)
+ */
+.card-body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+/* 
+ * Ensure form inputs match dark theme 
+ * Styles form controls across all forms:
+ * - customer_detail.html (lines 36, 49, 62, 75)
+ * - add_transaction.html and add_transaction_global.html form inputs
+ * - search input in customers.html (line 40)
+ */
+.form-control,
+.form-select {
+    background-color: var(--bs-dark);
+    border-color: var(--bs-gray-700);
+    color: var(--bs-light);
+    border-radius: 0.375rem;
+    padding: 0.5rem 0.75rem;
+    line-height: 1.5;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+/* 
+ * Focus state for form inputs 
+ * Applied when users focus or click on form fields
+ * Provides visual feedback for active form elements
+ */
+.form-control:focus,
+.form-select:focus {
+    background-color: var(--bs-dark);
+    color: var(--bs-light);
+    border-color: var(--bs-primary);
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    outline: 0;
+}
+
+/* 
+ * Input group add-ons 
+ * Used for input groups with buttons or labels
+ * Applied in search form in customers.html (line 39-43)
+ */
+.input-group-text {
+    background-color: var(--bs-gray-800);
+    border-color: var(--bs-gray-700);
+    color: var(--bs-light);
+    padding: 0.5rem 0.75rem;
+    font-size: 1rem;
+    border-radius: 0.375rem;
+}
+
+/* Improve input groups for mobile */
+.input-group > .form-control, 
+.input-group > .form-select {
+    position: relative;
+    flex: 1 1 auto;
+    width: 1%;
+    min-width: 0;
+}
+
+/* Add sensible input sizes for mobile */
+@media (max-width: 767.98px) {
+    .form-control, 
+    .form-select, 
+    .input-group-text {
+        font-size: 16px; /* Prevents iOS zoom on input focus */
+        padding: 0.65rem 0.75rem;
+    }
+    
+    /* Better spacing for form groups on mobile */
+    .mb-3 {
+        margin-bottom: 1.25rem !important;
+    }
+    
+    /* Improved spacing for form groups */
+    .form-group {
+        margin-bottom: 1.25rem;
+    }
+    
+    /* Better touch targets for form controls */
+    .form-control, 
+    .form-select {
+        min-height: 42px;
+    }
+    
+    /* Improved checkbox/radio styling for mobile */
+    .form-check {
+        padding-left: 1.75rem;
+        margin-bottom: 1rem;
+    }
+    
+    .form-check-input {
+        width: 1.25rem;
+        height: 1.25rem;
+        margin-top: 0.15rem;
+        margin-left: -1.75rem;
+    }
+    
+    .form-check-label {
+        padding-top: 0.15rem;
+    }
+}
+
+/* 
+ * Card styling 
+ * Applied to all .card components throughout the app:
+ * - customers.html (lines 33, 52)
+ * - customer_detail.html (lines 19, 117)
+ * - transaction-related templates
+ */
+.card {
+    background-color: var(--bs-gray-900);
+    border-color: var(--bs-gray-700);
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 
+ * Card header styling 
+ * Used in card header sections with titles:
+ * - customer_detail.html (line 21, 118)
+ * - similar headings in all card-based templates
+ */
+.card-header {
+    border-bottom-color: var(--bs-gray-700);
+    padding: 1rem 1.25rem;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+}
+
+/* 
+ * Card body styling 
+ * Contains the main content of all cards:
+ * - customer_detail.html (line 24)
+ * - customers.html (line 34, 54)
+ */
+.card-body {
+    background-color: var(--bs-gray-900);
+    padding: 1.25rem;
+}
+
+/* 
+ * Card footer styling 
+ * Used for action buttons at bottom of cards:
+ * - customer_detail.html (line 103)
+ * - footer elements in other card-based components
+ */
+.card-footer {
+    border-top-color: var(--bs-gray-700);
+    padding: 1rem 1.25rem;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* 
+ * Mobile optimized cards 
+ * Adjusts card styling for small screens (phones)
+ * Applied to all card components when viewport width < 576px
+ */
+@media (max-width: 576px) {
+    .card {
+        border-radius: 0.4rem;
+        margin-bottom: 1rem;
+    }
+    
+    .card-header {
+        padding: 0.85rem 1rem;
+    }
+    
+    .card-body {
+        padding: 1rem;
+    }
+    
+    .card-footer {
+        padding: 0.85rem 1rem;
+    }
+    
+    /* 
+     * Adjust heading sizes in cards for mobile 
+     * Makes headings more compact on small screens
+     * Applied to all heading elements inside card headers
+     */
+    .card-header h1, 
+    .card-header .h1 {
+        font-size: 1.5rem;
+    }
+    
+    .card-header h2, 
+    .card-header .h2, 
+    .card-header h3, 
+    .card-header .h3 {
+        font-size: 1.25rem;
+    }
+    
+    .card-header h4, 
+    .card-header .h4 {
+        font-size: 1.1rem;
+    }
+}
+
+/* 
+ * Table styling 
+ * Applied to all .table elements:
+ * - customers.html (line 57)
+ * - customer_detail.html (line 137)
+ * - transactions.html and other table-based views
+ */
+.table {
+    --bs-table-bg: var(--bs-gray-900);
+    --bs-table-striped-bg: var(--bs-gray-800);
+    --bs-table-hover-bg: var(--bs-gray-700);
+    --bs-table-border-color: var(--bs-gray-700);
+    table-layout: auto;
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+}
+
+/* 
+ * Responsive table styling 
+ * General table responsive container for horizontal scrolling
+ * Used as base class for all table containers
+ */
+.table-responsive {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* 
+ * Ensure table contents are properly sized 
+ * Applied to all table headers and data cells
+ * Prevents content overflow in table cells
+ */
+.table thead th,
+.table tbody td {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 
+ * Enable text wrapping in table cells 
+ * Makes table cell content wrap instead of overflowing
+ * Controls text behavior in all table data cells
+ */
+.table td {
+    word-wrap: break-word;
+    max-width: 150px; /* Default max width */
+    white-space: normal;
+    vertical-align: middle;
+}
+
+/* 
+ * Stacked card view for mobile tables 
+ * Completely transforms tables into stacked card view on mobile devices
+ * Applies to tables with .mobile-cards class:
+ * - customers.html (line 57)
+ * - customer_detail.html (line 137)
+ */
+@media (max-width: 767.98px) {
+    /* Hide table headers since they'll be replaced by data-label attributes */
+    .table.mobile-cards thead {
+        display: none; /* Hide table headers on mobile */
+    }
+    
+    /* Make all table elements block-level for stacked layout */
+    .table.mobile-cards, 
+    .table.mobile-cards tbody, 
+    .table.mobile-cards tr, 
+    .table.mobile-cards td {
+        display: block;
+        width: 100%;
+    }
+    
+    /* Style each row as a card */
+    .table.mobile-cards tr {
+        margin-bottom: 1.25rem;
+        border: 1px solid var(--bs-gray-700);
+        border-radius: 0.5rem;
+        background-color: var(--bs-gray-800);
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+        overflow: hidden;
+    }
+    
+    /* 
+     * Style table cells as label-value pairs 
+     * Uses data-label attribute from HTML for left side labels
+     * data-label set in:
+     * - customers.html (lines 71, 78, 86, 98)
+     * - customer_detail.html (line 152, 153, 160, 161, 162)
+     */
+    .table.mobile-cards td {
+        text-align: right;
+        position: relative;
+        padding: 0.75rem 1rem;
+        padding-left: 45%;
+        white-space: normal;
+        max-width: none;
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        border-bottom: 1px solid var(--bs-gray-700);
+        min-height: 3.25rem; /* Minimum height for better touch targets */
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+    }
+    
+    /* Remove border from last cell in each card */
+    .table.mobile-cards td:last-child {
+        border-bottom: none;
+    }
+    
+    /* 
+     * Create the left-side label from data-label attribute
+     * This is what displays the column name on mobile view
+     * Relies on data-label attributes added to td elements
+     */
+    .table.mobile-cards td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 1rem;
+        width: 40%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-weight: bold;
+        text-align: left;
+        color: var(--bs-light);
+    }
+    
+    /* 
+     * Specific styling for mobile badges 
+     * Used for status/type indicators in tables:
+     * - Credit/Debit badges in transactions
+     * - Balance badges in customer list
+     */
+    .table.mobile-cards .badge {
+        display: inline-block;
+        margin: 2px 0;
+        font-size: 0.85rem;
+        padding: 0.4em 0.65em;
+    }
+    
+    /* 
+     * Restore normal display for mobile button groups 
+     * Used in action columns with multiple buttons:
+     * - customers.html action buttons (lines 99-110)
+     */
+    .table.mobile-cards .btn-group {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.5rem;
+    }
+    
+    /* 
+     * Enhance buttons in mobile table cards 
+     * Makes buttons in tables more touch-friendly on mobile
+     * Applied to all buttons in table rows
+     */
+    .table.mobile-cards .btn {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.85rem;
+        margin: 0.15rem;
+    }
+    
+    /* 
+     * Better styling for action cells 
+     * Special styling for cells containing buttons/actions
+     * Applied to action columns in tables (last column)
+     */
+    .table.mobile-cards td.col-actions {
+        background-color: rgba(0,0,0,0.1);
+        padding-top: 0.85rem;
+        padding-bottom: 0.85rem;
+    }
+}
+
+/* Responsive table columns */
+@media (max-width: 768px) {
+    .table th, .table td {
+        font-size: 0.85rem;
+        padding: 0.5rem 0.35rem;
+    }
+    
+    /* Adjust width priorities */
+    .table .col-date {
+        width: 15%;
+        min-width: 70px;
+    }
+    
+    .table .col-type {
+        width: 12%;
+        min-width: 60px;
+    }
+    
+    .table .col-amount {
+        width: 13%;
+        min-width: 60px;
+    }
+    
+    .table .col-item {
+        width: 25%;
+        min-width: 100px;
+    }
+    
+    .table .col-description {
+        width: 25%;
+        min-width: 100px;
+    }
+    
+    .table .col-actions {
+        width: 10%;
+        min-width: 45px;
+    }
+    
+    /* Customer table columns */
+    .table .col-name {
+        width: 25%;
+        min-width: 120px;
+    }
+    
+    .table .col-contact {
+        width: 20%;
+        min-width: 100px;
+    }
+    
+    .table .col-balance {
+        width: 15%;
+        min-width: 80px;
+    }
+    
+    .table .col-transaction {
+        width: 25%;
+        min-width: 110px;
+    }
+    
+    .table .col-options {
+        width: 15%;
+        min-width: 80px;
+    }
+}
+
+/* Extra small devices */
+@media (max-width: 576px) {
+    .table th, .table td {
+        font-size: 0.75rem;
+        padding: 0.4rem 0.25rem;
+    }
+    
+    .badge {
+        font-size: 70%;
+        padding: 0.25em 0.4em;
+    }
+}
+
+/* Custom background for lighter cards */
+.bg-light {
+    background-color: var(--bs-gray-800) !important;
+    color: var(--bs-light);
+}
+
+/* Extra space at bottom of page for mobile scrolling */
+@media (max-width: 576px) {
+    .main-content {
+        padding-bottom: 80px; /* Add extra space at bottom on mobile */
+    }
+    
+    /* Ensure there's space at the bottom in all cases */
+    body {
+        margin-bottom: 3rem;
+    }
+}
+
+/* Auto-save toast styling */
+#autosave-indicator {
+    z-index: 9999;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Toast notifications mobile positioning */
+.toast-container {
+    z-index: 9999;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    max-width: 90%;
+}
+
+/* Mobile-friendly toast styling */
+@media (max-width: 576px) {
+    .toast {
+        width: 100%;
+        max-width: 90vw;
+        font-size: 0.9rem;
+    }
+    
+    .toast-header {
+        padding: 0.5rem 0.75rem;
+    }
+    
+    .toast-body {
+        padding: 0.75rem;
+    }
+}
+
+/* Loading indicator styling */
+#loading-indicator {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background-color: var(--bs-primary);
+    z-index: 9999;
+    width: 0;
+    transition: width 0.3s ease-in-out;
+}
+
+/* Auth pages (login/register) styling */
+.auth-page .navbar .d-flex:not(:first-child) {
+    display: none !important;
+}
+
+.auth-page .navbar-brand {
+    margin: 0 auto;
+}
+
+/* Responsive button styling */
+.btn {
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 4rem;
+}
+
+/* Small devices (phones) */
+@media (max-width: 576px) {
+    .btn {
+        font-size: 0.8rem;
+        padding: 0.35rem 0.5rem;
+        min-width: 2.8rem;
+        margin-bottom: 0.25rem;
+        margin-top: 0.25rem;
+    }
+    
+    .btn i {
+        font-size: 0.8rem;
+        margin-right: 0.2rem;
+    }
+    
+    .navbar-brand {
+        font-size: 1rem;
+    }
+    
+    /* Improve touch targets for mobile */
+    .dropdown-item, 
+    .nav-link, 
+    .form-control, 
+    .form-select {
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+    }
+    
+    /* Better spacing for mobile forms */
+    .form-label {
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Medium devices (tablets) */
+@media (min-width: 577px) and (max-width: 991px) {
+    .btn {
+        font-size: 0.85rem;
+        padding: 0.375rem 0.6rem;
+        min-width: 3rem;
+    }
+    
+    .btn i {
+        margin-right: 0.2rem;
+    }
+}
+
+/* Account dropdown styling */
+.navbar .dropdown-menu {
+    background-color: var(--bs-gray-800);
+    border-color: var(--bs-gray-700);
+}
+
+.navbar .dropdown-item {
+    color: var(--bs-light);
+}
+
+.navbar .dropdown-item:hover {
+    background-color: var(--bs-gray-700);
+    color: var(--bs-white);
+}
+
+.navbar .dropdown-toggle {
+    max-width: none;
+    overflow: visible;
+    white-space: nowrap;
+}
+
+/* Custom dropdown styling */
+.dropdown {
+    position: relative;
+}
+
+.dropdown-menu {
+    position: absolute;
+    background-color: var(--bs-dark);
+    border: 1px solid var(--bs-gray-700);
+    border-radius: 0.375rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    display: none;
+    min-width: 10rem;
+    padding: 0.5rem 0;
+    z-index: 1000;
+    margin: 0;
+    overflow: visible;
+    max-height: none;
+}
+
+/* Position dropdown directly under toggle button */
+.dropdown-menu.show {
+    display: block;
+    top: 100%;
+    margin-top: 0.125rem;
+    transform: none !important;
+}
+
+/* Right-aligned dropdown for user menu */
+.dropdown-menu-end.show {
+    right: 0;
+    left: auto;
+}
+
+/* Style dropdown items */
+.dropdown-item {
+    display: block;
+    width: 100%;
+    padding: 0.5rem 1rem;
+    clear: both;
+    font-weight: 400;
+    text-align: inherit;
+    text-decoration: none;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
+}
+
+.dropdown-item:hover, .dropdown-item:focus {
+    background-color: var(--bs-gray-800);
+    color: var(--bs-light);
+}
+
+/* Style forms inside dropdown items */
+.dropdown-item form {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+/* Style dropdown dividers */
+.dropdown-divider {
+    height: 0;
+    margin: 0.5rem 0;
+    overflow: hidden;
+    border-top: 1px solid var(--bs-gray-700);
+}
+
+/* Style dropdown headers */
+.dropdown-header {
+    display: block;
+    padding: 0.5rem 1rem;
+    margin-bottom: 0;
+    font-size: 0.875rem;
+    color: var(--bs-gray-500);
+    white-space: nowrap;
+}
+
+/* Toggle button arrow */
+.dropdown-toggle::after {
+    display: inline-block;
+    margin-left: 0.255em;
+    vertical-align: 0.255em;
+    content: "";
+    border-top: 0.3em solid;
+    border-right: 0.3em solid transparent;
+    border-bottom: 0;
+    border-left: 0.3em solid transparent;
+}
+
+/* Scrollable tables for customers and transactions */
+.table-responsive-scroll {
+    max-height: 70vh;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
+/* Button containers for horizontal alignment */
+.button-container {
+    display: flex;
+    flex-direction: row;
+    gap: 0.3rem;
+    align-items: center;
+    justify-content: flex-start;
+    overflow-x: visible;
+    max-width: 100%;
+    padding-bottom: 0.25rem;
+    flex-wrap: wrap;
+}
+
+/* Modal adjustments for mobile */
+.modal-dialog {
+    max-width: 95%;
+    margin: 20px auto;
+}
+
+.modal-content {
+    max-width: 100%;
+    overflow-x: hidden;
+    border-radius: 0.5rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.modal-header {
+    padding: 1rem;
+    border-bottom: 1px solid var(--bs-gray-700);
+}
+
+.modal-body {
+    word-wrap: break-word;
+    overflow-x: hidden;
+    padding: 1.25rem;
+}
+
+.modal-footer {
+    border-top: 1px solid var(--bs-gray-700);
+    padding: 1rem;
+}
+
+/* Improve modal buttons on mobile */
+@media (max-width: 576px) {
+    .modal-dialog {
+        margin: 10px auto;
+    }
+    
+    .modal-header {
+        padding: 0.75rem 1rem;
+    }
+    
+    .modal-body {
+        padding: 1rem;
+    }
+    
+    .modal-footer {
+        padding: 0.75rem 1rem;
+        gap: 0.5rem;
+    }
+    
+    .modal-footer .btn {
+        min-height: 40px;
+        font-size: 0.9rem;
+        padding: 0.5rem 0.75rem;
+    }
+    
+    /* Ensure modal title doesn't overflow */
+    .modal-title {
+        font-size: 1.1rem;
+        max-width: 80%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+
+/* Compact navbar on small screens */
+@media (max-width: 576px) {
+    .navbar-brand {
+        font-size: 0.9rem;
+        padding: 0.35rem;
+        max-width: 40%;
+    }
+    
+    .container, .container-fluid {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+    
+    .navbar {
+        padding: 0.5rem 0;
+    }
+    
+    /* Account dropdown adjustments for small screens */
+    .navbar .dropdown-toggle {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.65rem;
+        min-height: 38px; /* Better touch target */
+    }
+    
+    /* Prevent header from scrolling */
+    .navbar .d-flex {
+        flex-wrap: wrap;
+        gap: 0.35rem;
+        overflow-x: visible;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    /* Adjust form elements on small screens */
+    .form-control, .form-select, .input-group {
+        max-width: 100%;
+        font-size: 0.9rem;
+        min-height: 38px; /* Better touch target */
+    }
+    
+    /* Ensure buttons don't overflow */
+    .btn {
+        max-width: 100%;
+        min-height: 38px; /* Better touch target */
+    }
+    
+    /* Search input size control */
+    .navbar .form-control {
+        max-width: 150px;
+    }
+    
+    /* Add additional space for the second nav bar with menus */
+    .bg-dark.border-top.border-bottom {
+        padding-top: 0.5rem !important;
+        padding-bottom: 0.5rem !important;
+    }
+    
+    /* Improve dropdown menu spacing */
+    .dropdown-menu {
+        min-width: 12rem;
+    }
+    
+    .dropdown-item {
+        padding: 0.65rem 1rem;
+    }
+}
